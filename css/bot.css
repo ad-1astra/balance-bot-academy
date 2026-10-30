@@ -1,0 +1,65 @@
+/* Balance Bot Academy: program editors, blocks, console, speech bubbles */
+.code-panel {
+  position: absolute; z-index: 16; left: 50%; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  width: min(760px, calc(100% - 24px)); padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; max-height: 46%; overflow: auto;
+}
+.code-panel .lbl { font-family: var(--f-hud); font-size: 0.68rem; color: var(--magenta); letter-spacing: 0.12em; text-transform: uppercase; display: flex; justify-content: space-between; gap: 8px; }
+.code-panel .lbl span:last-child { color: var(--dim); }
+.prog { display: flex; flex-wrap: wrap; gap: 5px; min-height: 42px; align-items: center; padding: 6px; border-radius: 8px; background: var(--raised); border: 1px dashed var(--line); }
+.prog:empty::before { content: attr(data-empty); color: var(--dim); font-size: 0.85rem; padding: 0 6px; }
+.chip { font-family: var(--f-hud); font-size: 0.8rem; min-width: 40px; min-height: 34px; padding: 4px 8px; border-radius: 7px; border: 1px solid var(--line); background: var(--panel-solid); color: var(--fg); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+.chip .i { font-size: 1.05rem; }
+.chip.run { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 0 2px rgba(63, 208, 240, 0.35); }
+.chip.bad { border-color: var(--red); color: var(--red); background: rgba(255, 90, 79, 0.15); }
+.chip.ok { border-color: var(--green); color: var(--green); }
+.btnrow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.btnrow .grow { flex: 1; }
+.btnrow .ac-btn { min-height: 38px; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.steps .slot { min-height: 54px; border-radius: 8px; border: 1px dashed var(--line); background: var(--raised); padding: 6px; font: inherit; font-size: 0.82rem; display: grid; align-content: start; gap: 2px; cursor: pointer; text-align: left; color: var(--fg); }
+.steps .slot b { font-family: var(--f-hud); font-size: 0.66rem; color: var(--dim); font-weight: 400; }
+.steps .slot.full { border-style: solid; border-color: var(--cyan); }
+.steps .slot.run { background: rgba(63, 208, 240, 0.2); }
+.steps .slot.bad { border-color: var(--red); background: rgba(255, 90, 79, 0.14); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; }
+.cards button { min-height: 40px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel-solid); color: var(--fg); cursor: pointer; font: inherit; font-size: 0.84rem; padding: 6px 8px; text-align: left; }
+.cards button:hover { border-color: var(--cyan); }
+.cards button:disabled { opacity: 0.35; cursor: default; }
+.blocks { display: flex; flex-direction: column; gap: 3px; }
+.blk { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px; border-radius: 8px; padding: 5px 8px; font-weight: 700; font-size: 0.86rem; color: #fff; border: 1px solid rgba(0, 0, 0, 0.25); }
+.blk.ev { background: #b07a00; border-radius: 16px 16px 8px 8px; }
+.blk.mo { background: #3a6fd0; }
+.blk.lo { background: #7350c8; }
+.blk.py { background: var(--panel-solid); color: #d6e6ff; font-family: Consolas, "Courier New", ui-monospace, monospace; font-weight: 400; border-color: var(--line); white-space: pre; overflow-x: auto; }
+.blk.run { outline: 2px solid var(--green); }
+.blk.bad { outline: 2px solid var(--red); }
+.blk .ctl { display: flex; gap: 3px; }
+.blk .ctl button { width: 30px; height: 28px; border-radius: 6px; border: 0; background: rgba(0, 0, 0, 0.32); color: #fff; cursor: pointer; font-size: 0.85rem; }
+.palette { display: flex; flex-wrap: wrap; gap: 5px; }
+.palette button { border: 0; border-radius: 8px; padding: 6px 10px; color: #fff; font: inherit; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
+.console { font-family: Consolas, "Courier New", ui-monospace, monospace; font-size: 0.8rem; background: #02070e; border: 1px solid var(--line); border-radius: 8px; padding: 8px; min-height: 60px; max-height: 130px; overflow: auto; white-space: pre-wrap; color: #cfe3ff; }
+.console .err { color: var(--red); }
+.console .ok { color: var(--green); }
+.console input { background: transparent; border: 0; border-bottom: 1px solid var(--cyan); color: var(--cyan); font: inherit; outline: none; width: 14ch; }
+.flowrows { display: grid; gap: 5px; }
+.flowrow { display: grid; grid-template-columns: minmax(130px, 1fr) 2fr; gap: 6px; align-items: center; font-size: 0.84rem; }
+.flowrow > span { font-weight: 700; }
+.flowrow .seg { display: flex; gap: 4px; flex-wrap: wrap; }
+.flowrow .seg button { flex: 1; min-height: 32px; border-radius: 7px; border: 1px solid var(--line); background: var(--raised); color: var(--fg); cursor: pointer; font: inherit; font-size: 0.78rem; }
+.flowrow .seg button.on { border-color: var(--cyan); color: var(--cyan); background: rgba(63, 208, 240, 0.12); }
+.flowrow select { min-height: 32px; border-radius: 7px; border: 1px solid var(--line); background: var(--raised); color: var(--fg); font: inherit; font-size: 0.82rem; padding: 2px 6px; }
+.flowrow.bad > span { color: var(--red); }
+.say { position: absolute; z-index: 13; transform: translate(-30px, -100%); pointer-events: none; background: #fff; color: #111; font-weight: 700; font-size: 0.85rem; padding: 6px 10px; border-radius: 12px; white-space: nowrap; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); }
+.say::after { content: ""; position: absolute; left: 22px; bottom: -7px; border: 7px solid transparent; border-top-color: #fff; border-bottom: 0; }
+body .ac-hint { bottom: auto; top: calc(124px + env(safe-area-inset-top, 0px)); }
+@media (max-width: 980px) { body .ac-hint { display: none; } }
+@media (max-width: 560px) {
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .flowrow { grid-template-columns: 1fr; }
+  .code-panel { max-height: 50%; padding: 8px; }
+}
+@media (min-width: 981px) {
+  .code-panel.side { left: max(12px, env(safe-area-inset-left, 0px)); top: 250px; bottom: 12px; transform: none; width: 420px; max-height: none; }
+  .code-panel.side .seg small { display: none; }
+  .code-panel.side .flowrow { grid-template-columns: 130px 1fr; }
+}

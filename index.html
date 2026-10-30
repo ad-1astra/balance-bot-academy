@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Balance Bot Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=B612+Mono&family=Chakra+Petch:wght@500;700&display=swap">
+<link rel="stylesheet" href="css/academy.css">
+<style>
+  body { overflow-y: auto; background: var(--bg); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px 48px; }
+  .brand { display: flex; align-items: center; gap: 12px; padding-block: 18px; flex-wrap: wrap; }
+  .brand .word { font-family: var(--f-display); font-weight: 700; font-size: 1.35rem; }
+  .brand .grow { flex: 1; }
+  .hero { border: 1px solid var(--line); border-radius: 14px; padding: 28px; background: linear-gradient(135deg, #102540, var(--bg)); display: grid; gap: 12px; }
+  .hero h1 { font-family: var(--f-display); font-size: clamp(1.8rem, 5vw, 2.8rem); line-height: 1.05; }
+  .hero h1 em { color: var(--cyan); font-style: normal; }
+  .hero p { color: var(--dim); max-width: 60ch; }
+  .hero .ac-actions { justify-content: flex-start; }
+  h2.sec { font-family: var(--f-display); margin: 28px 0 10px; font-size: 1.25rem; }
+  .players { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+  .player { text-align: left; border: 1px solid var(--line); border-radius: var(--r); padding: 12px; background: var(--panel); color: var(--fg); font: inherit; cursor: pointer; display: grid; gap: 4px; }
+  .player.cur { border-color: var(--cyan); box-shadow: 0 0 0 1px var(--cyan) inset; }
+  .player small { font-family: var(--f-hud); color: var(--dim); }
+  .addp { display: flex; gap: 6px; align-items: center; border: 1px dashed var(--line); border-radius: var(--r); padding: 10px; }
+  .addp input { flex: 1; min-width: 0; background: var(--raised); border: 1px solid var(--line); border-radius: 8px; color: var(--fg); padding: 8px; font: inherit; }
+  .map { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+  .lesson { border: 1px solid var(--line); border-radius: var(--r); padding: 14px; background: var(--panel); display: grid; gap: 8px; align-content: start; }
+  .lesson .n { font-family: var(--f-hud); font-size: 0.72rem; color: var(--magenta); letter-spacing: 0.12em; text-transform: uppercase; }
+  .lesson h3 { font-family: var(--f-display); font-size: 1.1rem; }
+  .lesson p { color: var(--dim); font-size: 0.92rem; }
+  .lesson a.g { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; padding: 8px 10px; border-radius: 8px; background: var(--raised); color: var(--fg); text-decoration: none; }
+  .lesson a.g:hover { outline: 1px solid var(--cyan); }
+  .lesson a.g b { color: var(--cyan); }
+  .lesson a.g small { grid-column: 1 / -1; color: var(--dim); }
+  .lesson a.test { color: var(--magenta); font-family: var(--f-hud); font-size: 0.85rem; text-decoration: none; }
+  .stars { color: var(--amber); letter-spacing: 1px; font-size: 0.85rem; }
+  .stars .off { color: var(--line); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="brand">
+    <span class="word" id="title">Balance Bot Academy</span>
+    <span class="grow"></span>
+    <a class="ac-btn ghost small" href="arena.html#all">Final exam</a>
+    <a class="ac-btn ghost small" href="teacher.html">Teacher guide</a>
+  </header>
+  <section class="hero">
+    <span class="mono dim" id="chip"></span>
+    <h1>Teach a robot to <em>stand up.</em></h1>
+    <p id="tagline">Week 2 · Instructions and Algorithms. Our two-wheel robot only stays up if its algorithm is right: clear steps, in the right order, hundreds of times a second. Play every mission, then prove it in the Test Arena.</p>
+    <div class="ac-actions"><a class="ac-btn" id="go" href="#">Play</a><a class="ac-btn ghost" href="arena.html#all">Quiz Duel</a></div>
+  </section>
+  <h2 class="sec">Players</h2>
+  <div class="players" id="players"></div>
+  <h2 class="sec">Course map</h2>
+  <div class="map" id="map"></div>
+</div>
+<script>window.AC_UNIT = 'Session'</script>
+<script src="js/core.js"></script>
+<script>
+/* Course config: one entry per lesson in the notes. `game` + `missions` must match the ids used in each game's AC.missions(). */
+const COURSE = {
+  title: 'Balance Bot Academy',
+  lessons: [
+    { n: 1, title: 'Algorithms Are Recipes', summary: 'An algorithm is a list of clear steps, in the right order, that solves a problem. Computers follow them exactly.',
+      games: [
+        { url: 'balance.html', name: 'Balance Loop', game: 'balance', missions: ['human', 'order', 'missing', 'speed'], sub: 'Be the algorithm · fix the recipe · loop it fast' },
+        { url: 'path.html', name: 'Path Coder', game: 'path', missions: ['remote', 'plan', 'bugs', 'battery', 'boss'], sub: 'FORWARD · TURN · STOP: program the robot through the room' },
+      ] },
+    { n: 2, title: 'Your First Program', summary: 'Draw an algorithm as a flowchart, then turn it into code: Scratch blocks or Python lines, run top to bottom.',
+      games: [
+        { url: 'flow.html', name: 'Flowchart Factory', game: 'flow', missions: ['shapes', 'arrows', 'loop'], sub: 'Ovals, rectangles, diamonds: when should the robot charge?' },
+        { url: 'code.html', name: 'First Program', game: 'code', missions: ['flag', 'square', 'python', 'balance'], sub: 'Scratch green flag · walk a square · your first Python' },
+      ] },
+  ],
+};
+(function () {
+  const { h } = AC;
+  document.getElementById('title').textContent = COURSE.title;
+  document.title = COURSE.title;
+  const all = COURSE.lessons.flatMap((l) => l.games);
+  document.getElementById('chip').textContent = (() => { const n = all.length, m = all.reduce((s, g) => s + g.missions.length, 0); return '◆ ' + n + (n === 1 ? ' GAME · ' : ' GAMES · ') + m + (m === 1 ? ' MISSION' : ' MISSIONS') + ' · TESTS YOU PLAY'; })();
+  const starStr = (got, max) => h('span', { class: 'stars', html: '★'.repeat(Math.round((got / max) * 5)) + '<span class="off">' + '★'.repeat(5 - Math.round((got / max) * 5)) + '</span>', title: got + ' of ' + max + ' stars' });
+  const starsOf = (g) => g.missions.reduce((s, id) => s + AC.starsFor(g.game, id), 0);
+
+  function players() {
+    const el = document.getElementById('players');
+    el.innerHTML = '';
+    AC.data.pilots.forEach((p, i) => {
+      const got = all.reduce((s, g) => s + Object.keys(p.stars).filter((k) => k.startsWith(g.game + ':')).reduce((t, k) => t + p.stars[k], 0), 0);
+      el.appendChild(h('button', { type: 'button', class: 'player' + (i === (AC.data.cur | 0) ? ' cur' : ''), onclick: () => { AC.data.cur = i; AC.save(); render(); } },
+        h('small', {}, i === (AC.data.cur | 0) ? '▸ PLAYING NOW' : 'TAP TO PLAY AS'), h('b', {}, p.name), h('small', {}, p.xp + ' XP · ' + got + ' ★')));
+    });
+    const input = h('input', { type: 'text', placeholder: 'New player name', maxlength: '20', 'aria-label': 'New player name' });
+    const add = () => { const n = input.value.trim(); if (!n) return; AC.data.pilots.push(AC.blankPilot(n)); AC.data.cur = AC.data.pilots.length - 1; AC.save(); render(); };
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') add(); });
+    el.appendChild(h('div', { class: 'addp' }, input, h('button', { class: 'ac-btn small', type: 'button', onclick: add }, 'Add')));
+  }
+  function map() {
+    const el = document.getElementById('map');
+    el.innerHTML = '';
+    let next = null;
+    for (const l of COURSE.lessons) {
+      const card = h('div', { class: 'lesson' }, h('span', { class: 'n' }, AC.UNIT + ' ' + l.n), h('h3', {}, l.title), h('p', {}, l.summary));
+      for (const g of l.games) {
+        const got = starsOf(g), max = g.missions.length * 3;
+        if (!next && got < max) next = g;
+        card.appendChild(h('a', { class: 'g', href: g.url }, h('b', {}, g.name), starStr(got, max), g.sub ? h('small', {}, g.sub) : null));
+      }
+      card.appendChild(h('a', { class: 'test', href: 'arena.html#w' + l.n }, '▸ Take the ' + AC.UNIT + ' ' + l.n + ' test'));
+      el.appendChild(card);
+    }
+    const go = document.getElementById('go');
+    const g = next || all[0];
+    go.href = g.url;
+    go.textContent = 'Play: ' + g.name;
+  }
+  function render() { players(); map(); }
+  render();
+})();
+</script>
+</body>
+</html>
